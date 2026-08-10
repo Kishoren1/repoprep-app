@@ -1,0 +1,42 @@
+{
+  "name": "repoprep-app",
+  "version": "1.0.0",
+  "description": "The exact browser-side file-parsing and AI-context-building engine used by repoprep.com — published so anyone can verify it never sends a file anywhere.",
+  "license": "MIT",
+  "author": "Repoprep",
+  "homepage": "https://www.repoprep.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Kishoren1/repoprep-app"
+  },
+  "keywords": [
+    "ai",
+    "context",
+    "repo-to-prompt",
+    "codebase-to-ai",
+    "claude",
+    "chatgpt",
+    "gemini",
+    "llm-context",
+    "browser-local"
+  ],
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "mammoth": "^1.11.0",
+    "pdfjs-dist": "^5.5.207",
+    "exceljs": "^4.4.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0"
+  }
+}
