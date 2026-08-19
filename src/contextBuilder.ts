@@ -9,6 +9,7 @@ export interface ContextOutput {
   charCount: number;
   tree: string;
   skippedCount: number;
+  sourceName?: string;
 }
 
 const SEP_STRUCTURE = "===== PROJECT STRUCTURE =====";
@@ -92,7 +93,10 @@ function fileHeader(path: string): string {
   return `\n--- ${path}${langTag(path)} ---`;
 }
 
-export function buildContext(results: ParseResult[]): ContextOutput {
+export function buildContext(
+  results: ParseResult[],
+  sourceName?: string,
+): ContextOutput {
   const successful = results.filter(
     (r) => !r.error && r.content.trim().length > 0,
   );
@@ -143,6 +147,6 @@ export function buildContext(results: ParseResult[]): ContextOutput {
     charCount: fullText.length,
     tree,
     skippedCount: failed.length,
+    sourceName,
   };
 }
-

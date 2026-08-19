@@ -99,6 +99,17 @@ export interface ParseResult {
   error: boolean;
 }
 
+function isLikelyBinary(content: string): boolean {
+  const sample = content.slice(0, 8_000);
+  let nonPrintable = 0;
+  for (let i = 0; i < sample.length; i++) {
+    const code = sample.charCodeAt(i);
+    if (code === 0) return true;
+    if (code < 9 || (code > 13 && code < 32)) nonPrintable++;
+  }
+  return sample.length > 0 && nonPrintable / sample.length > 0.1;
+}
+
 export async function parseFile(
   file: File,
   relativePath: string,
@@ -118,10 +129,16 @@ export async function parseFile(
     } else if (XLSX_EXTS.has(ext)) {
       content = await parseXlsx(file);
     } else {
+      // Unrecognized extension — attempt a text read, but verify it's
+      // actually text before accepting it, rather than trusting any
+      // extension we don't recognize.
       try {
-        content = await parseText(file);
+        const text = await parseText(file);
+        content = isLikelyBinary(text)
+          ? "[Binary file — content not extracted]"
+          : text;
       } catch {
-        content = `[Binary or unsupported file — content not extracted]`;
+        content = "[Binary or unsupported file — content not extracted]";
       }
     }
 
@@ -166,4 +183,3 @@ export async function parseFiles(
 
   return { results, failed, total: files.length };
 }
-

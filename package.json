@@ -1,6 +1,6 @@
 {
   "name": "repoprep-app",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "The exact browser-side file-parsing and AI-context-building engine used by repoprep.com — published so anyone can verify it never sends a file anywhere.",
   "license": "MIT",
   "author": "Repoprep",
