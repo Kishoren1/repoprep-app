@@ -17,4 +17,3 @@ export async function parseDocx(file: File): Promise<string> {
 
   return result.value.trim();
 }
-

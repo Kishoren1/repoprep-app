@@ -2,16 +2,15 @@ import { parseText } from "./textParser";
 import { parsePdf } from "./pdfParser";
 import { parseDocx } from "./docxParser";
 import { parseXlsx } from "./xlsxParser";
+import { isLikelyBinary } from "../fileFilters";
 
 const TEXT_EXTS = new Set([
-  // JavaScript / TypeScript
   "js",
   "jsx",
   "ts",
   "tsx",
   "mjs",
   "cjs",
-  // Python / Ruby / Go / Java / Rust / etc.
   "py",
   "rb",
   "go",
@@ -27,7 +26,6 @@ const TEXT_EXTS = new Set([
   "scala",
   "r",
   "lua",
-  // Web
   "html",
   "css",
   "scss",
@@ -35,7 +33,6 @@ const TEXT_EXTS = new Set([
   "less",
   "svelte",
   "vue",
-  // Data / Config
   "json",
   "yaml",
   "yml",
@@ -48,19 +45,16 @@ const TEXT_EXTS = new Set([
   "prisma",
   "sql",
   "env",
-  // Docs
   "md",
   "mdx",
   "txt",
   "rst",
   "tex",
-  // Shell
   "sh",
   "bash",
   "zsh",
   "fish",
   "ps1",
-  // Misc dotfiles (matched by name, not ext — handled below)
   "gitignore",
   "gitattributes",
   "editorconfig",
@@ -99,17 +93,6 @@ export interface ParseResult {
   error: boolean;
 }
 
-function isLikelyBinary(content: string): boolean {
-  const sample = content.slice(0, 8_000);
-  let nonPrintable = 0;
-  for (let i = 0; i < sample.length; i++) {
-    const code = sample.charCodeAt(i);
-    if (code === 0) return true;
-    if (code < 9 || (code > 13 && code < 32)) nonPrintable++;
-  }
-  return sample.length > 0 && nonPrintable / sample.length > 0.1;
-}
-
 export async function parseFile(
   file: File,
   relativePath: string,
@@ -142,7 +125,7 @@ export async function parseFile(
       }
     }
 
-    const MAX_CHARS = 100_000;
+    const MAX_CHARS = 200_000;
     if (content.length > MAX_CHARS) {
       content =
         content.slice(0, MAX_CHARS) +

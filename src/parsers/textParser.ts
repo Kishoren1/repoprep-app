@@ -7,4 +7,3 @@ export async function parseText(file: File): Promise<string> {
     reader.readAsText(file, "utf-8");
   });
 }
-

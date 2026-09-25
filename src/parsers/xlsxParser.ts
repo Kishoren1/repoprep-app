@@ -81,4 +81,3 @@ export async function parseXlsx(file: File): Promise<string> {
 
   return sections.join("\n\n");
 }
-

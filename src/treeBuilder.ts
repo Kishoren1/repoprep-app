@@ -70,4 +70,3 @@ export function buildDirectoryTree(paths: string[]): string {
 
   return lines.join("\n");
 }
-

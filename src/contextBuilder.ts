@@ -142,9 +142,9 @@ export function buildContext(
 
   return {
     text: fullText,
-    tokens: estimateTokens(fullText),
+    tokens,
     fileCount: successful.length,
-    charCount: fullText.length,
+    charCount,
     tree,
     skippedCount: failed.length,
     sourceName,

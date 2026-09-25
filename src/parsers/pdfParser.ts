@@ -72,4 +72,3 @@ export async function parsePdf(file: File): Promise<string> {
 
   return pageTexts.join("\n\n");
 }
-
